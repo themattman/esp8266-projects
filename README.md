@@ -43,3 +43,26 @@ Control a Heating & Cooling head unit which is normally controlled by remote
 #### Temperature sensor - $13.99 / 10 = $1.40ea - https://www.amazon.com/KOOKYE-Temperature-Interface-Technology-DS18B201010/dp/B08C7N75ST
 
 #### Resistors
+
+## Air Quality Sensor Readings
+
+### Supplies
+
+#### AQI Sensor - $13.00ea - https://www.amazon.com/dp/B07B2PFPB5
+
+
+# TODO
+
+* Schematics for each project
+
+* Pictures of finished products
+
+* Difficulty ratings
+
+* Cost breakdowns and full estimated project costs
+
+* Power consumption data
+
+* Progress Updates after deployment
+
+* Next Up list
