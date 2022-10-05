@@ -9,7 +9,7 @@
 #define DEBUG 1
 
 #ifdef DEBUG
-  #define     WIFI              1
+  #define     WIFI              0
   #define     TRACE             1
   #define     FEATURE_LED       1
 #else // RELEASE
@@ -19,7 +19,7 @@
 #endif // RELEASE/DEBUG
 
 #define LOGLN(...) \
-  Serial.println(__VA_ARGS__)
+  Serial.printf(__VA_ARGS__ + '\n')
 #define DEBUG_LOG(...) \
   if(DEBUG) Serial.print(__VA_ARGS__)
 #define DEBUG_LOGLN(...) \
@@ -27,23 +27,27 @@
 #define DEBUG_LOG_PRINTF(...) \
   if(DEBUG) Serial.printf(__VA_ARGS__)
 
-#define SETUP_INIT()            \
-  if(DEBUG) Serial.begin(9600); \
-  DEBUG_LOG_PRINTF("program: %s @ [%s]", __FILE__, __DATE__);
+#define SETUP_INIT()                               \
+  Serial.begin(9600);                              \
+  LOGLN("program: %s @ [%s]", __FILE__, __DATE__); \
+  if (!DEBUG) Serial.end();
 
-#define     HOST              "HOST"
-#define     PORT              "PORT"
-#define     BUF_SIZE          5*10+4
-#define     ONE_WIRE_BUS      4
-#define     HOME_PROTOCOL_VER 0.1
-#define     LED_ON            LOW
-#define     LED_OFF           HIGH
+
+#define     HOST                  "HOST"
+#define     PORT                  "PORT"
+#define     REPORTING_INTERVAL_MS 300000 // 5 minutes
+#define     TEST_RPT_INTERVAL_MS  3000   // 3 seconds
+#define     BUF_SIZE              5*10+4
+#define     ONE_WIRE_BUS          4
+#define     HOME_PROTOCOL_VER     0.1
+#define     LED_ON                LOW
+#define     LED_OFF               HIGH
 #if FEATURE_LED
-  #define     TURN_LED_ON       digitalWrite(LED_BUILTIN, LED_ON);
-  #define     TURN_LED_OFF      digitalWrite(LED_BUILTIN, LED_OFF);
+  #define     TURN_LED_ON         digitalWrite(LED_BUILTIN, LED_ON);
+  #define     TURN_LED_OFF        digitalWrite(LED_BUILTIN, LED_OFF);
 #else  // FEATURE_LED
-  #define     TURN_LED_ON       do {} while(0);
-  #define     TURN_LED_OFF      digitalWrite(LED_BUILTIN, LED_OFF);
+  #define     TURN_LED_ON         do {} while(0);
+  #define     TURN_LED_OFF        digitalWrite(LED_BUILTIN, LED_OFF);
 #endif // FEATURE_LED
 
 const int   DHTPin     = 14;            // D5
@@ -229,8 +233,8 @@ void loop()
   TURN_LED_OFF
 
 #if WIFI
-  delay(300000);  //Send a request every 5 minutes
+  delay(REPORTING_INTERVAL_MS);  //Send a request every 5 minutes (don't want to spam the server)
 #else // WIFI
-  delay(3000);
+  delay(TEST_RPT_INTERVAL_MS);
 #endif // WIFI
 }
